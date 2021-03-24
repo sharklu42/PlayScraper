@@ -13,8 +13,8 @@ options.add_argument('--disable-dev-shm-usage')
 driver = webdriver.Chrome(executable_path="chromedriver", options=options)
 
 
-def get_url(k, c):
-    return f"https://play.google.com/store/search?q={k}&c=apps&hl={c}&gl=US"
+def get_url(k, l, c):
+    return f"https://play.google.com/store/search?q={k}&c=apps&hl={l}&gl={c}"
 
 
 def get_headless_window(url):
@@ -41,8 +41,13 @@ def find_app_id_index(app_id):
     app_id_list = []
     for app in list_of_apps:
         app_id_list.append(app.find_element_by_tag_name("a").get_attribute("href"))
-    i = app_id_list.index(f"https://play.google.com/store/apps/details?id={app_id}")
-    return i + 1
+    try:
+        i = app_id_list.index(f"https://play.google.com/store/apps/details?id={app_id}")
+    except ValueError:
+        i = "app is not in the first 50th list"
+        return i
+    else:
+        return i + 1
 
 
 def add_into_csv(input_data):
@@ -55,6 +60,6 @@ def add_into_csv(input_data):
 
 def run_script(data):
     for key in data['keyword'].split(', '):
-        url = get_url(key.replace(" ", "%20"), data['country'])
+        url = get_url(key.replace(" ", "%20"), data['language'], data['country'])
         get_headless_window(url)
         add_into_csv({"KEYWORD": key, "INDEX": find_app_id_index(data['app_id'])})
