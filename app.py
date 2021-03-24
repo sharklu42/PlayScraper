@@ -14,9 +14,9 @@ def index():
 def my_form_post():
     keyword = request.form['keyword']
     country = request.form['country']
-    language = request.form['language']
+    locale = request.form['locale']
     app_id = request.form['app_id']
-    main.run_script({"keyword": keyword, "country": country, "language" : language, "app_id": app_id})
+    main.run_script({"keyword": keyword, "country": country, "locale": locale, "app_id": app_id})
     file_path = "./output.csv"
 #saving file into a memory to remove after downloding. Workaround for windows only
     def generate():
