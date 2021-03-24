@@ -14,8 +14,9 @@ def index():
 def my_form_post():
     keyword = request.form['keyword']
     country = request.form['country']
+    language = request.form['language']
     app_id = request.form['app_id']
-    main.run_script({"keyword": keyword, "country": country, "app_id": app_id})
+    main.run_script({"keyword": keyword, "country": country, "language" : language, "app_id": app_id})
     file_path = "./output.csv"
 
     def generate():
