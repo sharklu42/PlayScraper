@@ -16,7 +16,6 @@ def my_form_post():
     country = request.form['country']
     language = request.form['language']
     app_id = request.form['app_id']
-#sending data into a main script    
     main.run_script({"keyword": keyword, "country": country, "language" : language, "app_id": app_id})
     file_path = "./output.csv"
 #saving file into a memory to remove after downloding. Workaround for windows only
