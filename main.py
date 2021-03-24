@@ -57,9 +57,19 @@ def add_into_csv(input_data):
         writer_object.writerow(input_data)
         o.close()
 
+        
+def prepare_keyword(keyword):
+    k1 = keyword.replace('\r\n', ",")
+    new_keyword = k1.split(",")
+    return new_keyword
+
+        
 #Main script runner
 def run_script(data):
-    for key in data['keyword'].split(', '):
-        url = get_url(key.replace(" ", "%20"), data['language'], data['country'])
-        get_headless_window(url)
-        add_into_csv({"KEYWORD": key, "INDEX": find_app_id_index(data['app_id'])})
+    keywords = prepare_keyword(data['keyword'])
+    for key in keywords:
+        if len(key) > 1:
+            new_key = key.lstrip()
+            url = get_url(new_key.replace(" ", "%20"), data['locale'], data['country'])
+            get_headless_window(url)
+            add_into_csv({"KEYWORD": new_key, "INDEX": find_app_id_index(data['app_id'])})
