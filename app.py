@@ -4,21 +4,22 @@ import os
 
 app = Flask(__name__)
 
-
+#rendering deafoult flask template
 @app.route('/')
 def index():
     return render_template("index.html")
 
-
+#getting data from the input fields
 @app.route('/get-data', methods=['POST'])
 def my_form_post():
     keyword = request.form['keyword']
     country = request.form['country']
     language = request.form['language']
     app_id = request.form['app_id']
+#sending data into a main script    
     main.run_script({"keyword": keyword, "country": country, "language" : language, "app_id": app_id})
     file_path = "./output.csv"
-
+#saving file into a memory to remove after downloding. Workaround for windows only
     def generate():
         with open(file_path) as f:
             yield from f
